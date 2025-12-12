@@ -27,11 +27,22 @@ build: tailwind-install templ-install
 # Run the application
 run:
 	@go run cmd/api/main.go
+# Create DB container
+docker-run:
+	@docker compose up --build
+
+# Shutdown DB container
+docker-down:
+	@docker compose down
 
 # Test the application
 test:
 	@echo "Testing..."
 	@go test ./... -v
+# Integrations Tests for the application
+itest:
+	@echo "Running integration tests..."
+	@go test ./internal/database -v
 
 # Clean the binary
 clean:
@@ -50,4 +61,4 @@ watch:
 		Write-Output 'Watching...'; \
 	}"
 
-.PHONY: all build run test clean watch tailwind-install templ-install
+.PHONY: all build run test clean watch tailwind-install docker-run docker-down itest templ-install
